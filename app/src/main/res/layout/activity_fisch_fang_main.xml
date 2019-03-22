@@ -44,7 +44,7 @@
                 >
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/tv3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="50px"
@@ -53,7 +53,7 @@
                     android:text="TextView" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/tv4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="50px"
@@ -62,7 +62,7 @@
                     android:text="TextView" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/tv5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -74,10 +74,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:margin_right="50px">
+                >
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/tv6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="50px"
@@ -86,7 +86,7 @@
                     android:text="TextView" />
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/tv7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="50px"
@@ -95,7 +95,7 @@
                     android:text="TextView" />
 
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/tv8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
