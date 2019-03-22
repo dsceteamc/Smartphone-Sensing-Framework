@@ -176,6 +176,7 @@ public class StateMachineHandler extends Handler{
 							CurrentTickData.accY.toString(),
 							CurrentTickData.accZ.toString(),
 							CurrentTickData.accVecA.toString(),
+							CurrentTickData.angleX.toString(),
 							CurrentTickData.GPSalt.toString(),
 							CurrentTickData.GPSlon.toString(),
 							CurrentTickData.GPSlat.toString(),
