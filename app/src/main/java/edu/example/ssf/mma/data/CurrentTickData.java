@@ -49,6 +49,9 @@ public class CurrentTickData {
 	
 	/** setting the z-value of the accelerometer to 1 in the beginning */
 	public static Float accZ=1.0f;
+
+	/** setting the x-value of the accelerometer to 1 in the beginning */
+	public static Double angleX=1.0d;
 	
 	//GPS Sensor Data
 	/** setting the microphone altitude to 0 in the beginning */
