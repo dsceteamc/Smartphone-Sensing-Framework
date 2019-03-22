@@ -314,11 +314,11 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                     @Override
                     public void run() {
                         if (idOfNavObj == R.id.nav_acc) {
-                            textView5.setVisibility(View.INVISIBLE);
                             textView1.setText("X: " + String.format("%.2f", CurrentTickData.accX));
                             textView2.setText("Y: " + String.format("%.2f", CurrentTickData.accY));
                             textView3.setText("Z: " + String.format("%.2f", CurrentTickData.accZ));
                             textView4.setText("AccV: " + String.format("%.2f", CurrentTickData.accVecA));
+                            textView5.setText("angleX: " + String.format("%.2f", CurrentTickData.angleX));
                         } else if (idOfNavObj == R.id.nav_gps) {
                             textView1.setText("GPS Alt: " + String.format("%.2f", CurrentTickData.GPSalt));
                             textView2.setText("GPS Lat: " + String.format("%.6f", CurrentTickData.GPSlat));

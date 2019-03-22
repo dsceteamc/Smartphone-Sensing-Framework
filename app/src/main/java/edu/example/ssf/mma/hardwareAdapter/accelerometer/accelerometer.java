@@ -71,12 +71,9 @@ public class accelerometer implements SensorEventListener, IAccelerometer {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             getAccelerometer(event);
         }
-
     }
 
     private void getAccelerometer(SensorEvent event) {
-
-
         float[] values = event.values;
         // Movement
         x = values[0];
@@ -88,10 +85,8 @@ public class accelerometer implements SensorEventListener, IAccelerometer {
         CurrentTickData.accY = y;
         CurrentTickData.accZ = z;
         CurrentTickData.accVecA = accelationSquareRoot;
-
+        CurrentTickData.angleX = Math.atan2(x, y)/(Math.PI/180);
         //Log.d("AccValues",CurrentTickData.accVecA +"");
-
-
     }
 
     @Override
