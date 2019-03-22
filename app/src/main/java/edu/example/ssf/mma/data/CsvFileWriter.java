@@ -82,6 +82,7 @@ public class CsvFileWriter {
 					"AccY"+separator+
 					"AccZ"+separator+
 					"Acc Vector a"+separator+
+					"Angle X"+separator+
 					"GPS Altitude"+separator+
 					"GPS Latitude"+separator+
 					"GPS Longitude"+separator+
@@ -117,6 +118,7 @@ public class CsvFileWriter {
 			String accy,
 			String accz,
 			String accVecA,
+			String angleX,
 			String gpsAlt,
 			String gpsLat,
             String gpsLon,
@@ -140,6 +142,7 @@ public class CsvFileWriter {
 					accy+separator+
 					accz+separator+
 					accVecA+separator+
+					angleX+separator+
                     gpsAlt+separator+
                     gpsLat+separator+
                     gpsLon+separator+
