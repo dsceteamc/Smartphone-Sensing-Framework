@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     private static TextView textViewActState;
     private EditText eventEditText;
     private ToggleButton recButton, mmaButton, eventButton;
-    private Button fileBrowserButton, showChartButton;
+    private Button fileBrowserButton, showChartButton, goToFischFang;
 
     //Text View Result
     private String defaultMessage = "Please Choose your Sensor to Display!";
@@ -119,12 +119,21 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
 
 
         //Buttons & Toggle Buttons
+        goToFischFang = findViewById(R.id.button_goToFF);
         fileBrowserButton = findViewById(R.id.fileexplorer);
         fileBrowserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent =  new Intent(MainActivity.this, ListFileActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        goToFischFang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(MainActivity.this, FischFangMain.class);
+                MainActivity.this.startActivity(myIntent);
             }
         });
 
