@@ -15,7 +15,7 @@ import edu.example.ssf.mma.data.CurrentTickData;
 
 public class FischFangMain extends AppCompatActivity {
 
-    private TextView tv1, tv2, tv3, tv4, tv5, tv6, tv7, tv8;
+    private TextView tvSpeed, tvAngle, tvDistance, tv3, tv4, tv5, tv6, tv7, tv8;
     private Button btn1;
     boolean isButtonReleased = false, isButtonPressed = false;
 
@@ -28,8 +28,10 @@ public class FischFangMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fisch_fang_main);
 
-        tv1 = findViewById(R.id.tv1);
-        tv2 = findViewById(R.id.tv2);
+        tvSpeed = findViewById(R.id.tvSpeed);
+        tvAngle = findViewById(R.id.tvAngle);
+        tvDistance = findViewById(R.id.tvDistance);
+
         tv3 = findViewById(R.id.tv3);
         tv4 = findViewById(R.id.tv4);
         tv5 = findViewById(R.id.tv5);
@@ -46,19 +48,19 @@ public class FischFangMain extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    tv2.setText("Pressed");
+                    tv8.setText("Pressed");
                     isButtonPressed = true;
                     isButtonReleased = false;
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     isButtonReleased = true;
                     isButtonPressed = false;
-                    tv2.setText("Released");
+                    tv8.setText("Released");
 
                     tv3.setText("X: " + String.format("%.2f", CurrentTickData.accX));
                     tv4.setText("Y: " + String.format("%.2f", CurrentTickData.accY));
                     tv5.setText("Z: " + String.format("%.2f", CurrentTickData.accZ));
                     tv6.setText("AccV: " + String.format("%.2f", CurrentTickData.accVecA));
-                    tv7.setText("angleX: " + String.format("%.2f", CurrentTickData.angleX));
+                    tvAngle.setText(String.format("%.2f", CurrentTickData.angleX));
                 }
                 return true;
             }

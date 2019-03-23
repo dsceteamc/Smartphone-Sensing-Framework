@@ -1,3 +1,12 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="labelAndValue_width">150dp</dimen>
+    <dimen name="labelAndValue_height">30dp</dimen>
+    <dimen name="labelAndValue_label_width">50dp</dimen>
+    <dimen name="labelValue_margin_top">15dp</dimen>
+    <dimen name="labelValue_margin_upper">30dp</dimen>
+    <dimen name="labelValue_value_margin_left">5dp</dimen>
+    <dimen name="btn_width">150dp</dimen>
+    <dimen name="btn_height">150dp</dimen>
+    <dimen name="btn_margin_bottom">50dp</dimen>
 </resources>

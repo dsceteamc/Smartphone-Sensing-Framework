@@ -10,6 +10,9 @@
     <string name="mic">Microphone</string>
     <string name="gps">GPS</string>
     <string name="proximity">Proximity</string>
+    <string name="speed">Speed:</string>
+    <string name="angle">Angle:</string>
+    <string name="distance">Distance:</string>
 
 
 </resources>

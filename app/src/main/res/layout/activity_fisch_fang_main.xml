@@ -11,37 +11,105 @@
         android:layout_height="match_parent">
 
 
-        <TextView
-            android:id="@+id/tv1"
+        <LinearLayout
+            android:id="@+id/ll1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="50px"
-            android:text="AccWert" />
+            android:layout_marginTop="@dimen/labelValue_margin_upper"
+            android:minWidth="@dimen/labelAndValue_width"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:background="@drawable/border">
 
-        <TextView
-            android:id="@+id/tv2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv1"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="50px"
-            android:text="Button State"
-            tools:layout_editor_absoluteX="166dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:textAlignment="textEnd"
+                android:layout_gravity="end"
+                android:text="@string/speed" />
+
+            <TextView
+                android:id="@+id/tvSpeed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_marginLeft="@dimen/labelValue_value_margin_left"
+                android:text="TEST" />
+        </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll2"
+            android:layout_below="@+id/ll1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/labelValue_margin_top"
+            android:minWidth="@dimen/labelAndValue_width"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:background="@drawable/border">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:textAlignment="textEnd"
+                android:layout_gravity="end"
+                android:text="@string/angle" />
+
+            <TextView
+                android:id="@+id/tvAngle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_marginLeft="@dimen/labelValue_value_margin_left"
+                android:text="TEST" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll3"
+            android:layout_below="@+id/ll2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/labelValue_margin_top"
+            android:minWidth="@dimen/labelAndValue_width"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:background="@drawable/border">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:textAlignment="textEnd"
+                android:layout_gravity="end"
+                android:text="@string/distance" />
+
+            <TextView
+                android:id="@+id/tvDistance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_marginLeft="@dimen/labelValue_value_margin_left"
+                android:text="TEST" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llDebug"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/btn1"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="100px"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv3"
@@ -73,8 +141,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv6"
@@ -106,11 +173,13 @@
 
         <Button
             android:id="@+id/btn1"
-            android:layout_width="152dp"
-            android:layout_height="156dp"
+            android:layout_width="@dimen/btn_width"
+            android:layout_height="@dimen/btn_height"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="300px"
-            android:text="Start" />
+            android:layout_marginBottom="@dimen/btn_margin_bottom"
+            android:text="Start"
+            android:background="@drawable/border"
+            />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
