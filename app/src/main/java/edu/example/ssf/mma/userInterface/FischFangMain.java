@@ -12,12 +12,15 @@ import android.widget.TextView;
 
 import edu.example.ssf.mma.R;
 import edu.example.ssf.mma.data.CurrentTickData;
+import edu.example.ssf.mma.hardwareAdapter.HardwareFactory;
 
 public class FischFangMain extends AppCompatActivity {
 
     private TextView tv1, tv2, tv3, tv4, tv5, tv6, tv7, tv8;
     private Button btn1;
     boolean isButtonReleased = false, isButtonPressed = false;
+    private float nullpointAccelX;
+    private double nullpointVectorA;
 
     SensorManager sensorManager;
     Sensor sensor;
@@ -49,16 +52,30 @@ public class FischFangMain extends AppCompatActivity {
                     tv2.setText("Pressed");
                     isButtonPressed = true;
                     isButtonReleased = false;
+                    HardwareFactory.hwAcc.start();
+                    HardwareFactory.hwGyro.start();
+                    nullpointAccelX = HardwareFactory.hwAcc.getAccX();
+                    nullpointVectorA = HardwareFactory.hwAcc.getAccA();
+                    CurrentTickData.rotationX = HardwareFactory.hwGyro.getRotX();
+                    CurrentTickData.accVecA = HardwareFactory.hwAcc.getAccA();;
+                    CurrentTickData.accX = HardwareFactory.hwAcc.getAccX();
+
+
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    HardwareFactory.hwAcc.stop();
+                    HardwareFactory.hwGyro.stop();
                     isButtonReleased = true;
                     isButtonPressed = false;
                     tv2.setText("Released");
 
-                    tv3.setText("X: " + String.format("%.2f", CurrentTickData.accX));
-                    tv4.setText("Y: " + String.format("%.2f", CurrentTickData.accY));
-                    tv5.setText("Z: " + String.format("%.2f", CurrentTickData.accZ));
-                    tv6.setText("AccV: " + String.format("%.2f", CurrentTickData.accVecA));
-                    tv7.setText("angleX: " + String.format("%.2f", CurrentTickData.angleX));
+                    tv3.setText("Meter" + String.format("%.2f",((CurrentTickData.accVecA - 10)/3)));
+                    tv4.setText("Angle: " + String.format("%.2f", CurrentTickData.angleX));
+                    tv5.setText("Force: " + String.format("%.2f", (CurrentTickData.accVecA)));
+                    tv6.setVisibility(View.INVISIBLE);
+
+                    tv7.setVisibility(View.INVISIBLE);
+
+                    tv8.setVisibility(View.INVISIBLE);
                 }
                 return true;
             }

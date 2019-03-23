@@ -84,7 +84,7 @@ public class accelerometer implements SensorEventListener, IAccelerometer {
         CurrentTickData.accX = x;
         CurrentTickData.accY = y;
         CurrentTickData.accZ = z;
-        CurrentTickData.accVecA = accelationSquareRoot;
+        CurrentTickData.accVecA = CurrentTickData.accVecA < accelationSquareRoot ? accelationSquareRoot : CurrentTickData.accVecA;
         CurrentTickData.angleX = Math.atan2(x, y)/(Math.PI/180);
         //Log.d("AccValues",CurrentTickData.accVecA +"");
     }
