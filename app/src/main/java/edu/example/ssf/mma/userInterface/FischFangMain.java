@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import edu.example.ssf.mma.R;
 import edu.example.ssf.mma.data.CurrentTickData;
+import edu.example.ssf.mma.hardwareAdapter.HardwareFactory;
 
 public class FischFangMain extends AppCompatActivity {
 
@@ -51,16 +52,21 @@ public class FischFangMain extends AppCompatActivity {
                     tv8.setText("Pressed");
                     isButtonPressed = true;
                     isButtonReleased = false;
+                    HardwareFactory.hwAcc.start();
+                    HardwareFactory.hwGyro.start();
+                    CurrentTickData.rotationX = HardwareFactory.hwGyro.getRotX();
+                    CurrentTickData.accVecA = HardwareFactory.hwAcc.getAccA();;
+                    CurrentTickData.accX = HardwareFactory.hwAcc.getAccX();
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     isButtonReleased = true;
                     isButtonPressed = false;
+                    HardwareFactory.hwAcc.stop();
+                    HardwareFactory.hwGyro.stop();
                     tv8.setText("Released");
 
-                    tv3.setText("X: " + String.format("%.2f", CurrentTickData.accX));
-                    tv4.setText("Y: " + String.format("%.2f", CurrentTickData.accY));
-                    tv5.setText("Z: " + String.format("%.2f", CurrentTickData.accZ));
-                    tv6.setText("AccV: " + String.format("%.2f", CurrentTickData.accVecA));
+                    tvDistance.setText(String.format("%.2f", ((CurrentTickData.accVecA - 10))/3));
                     tvAngle.setText(String.format("%.2f", CurrentTickData.angleX));
+                    tvSpeed.setText(String.format("%.2f", (CurrentTickData.accVecA-10)*2) + "km/h");
                 }
                 return true;
             }
