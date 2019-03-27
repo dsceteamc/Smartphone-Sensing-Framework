@@ -101,7 +101,18 @@ public class CsvFileWriter {
 			Log.w("creating file error", e.toString());
 		}
 	}
-	
+
+	public static void write(String message) {
+		if (fileWriter==null) {
+			return;
+		}
+		try {
+			fileWriter.write(message);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
     
     /**
      * Writes the captured data in the csv file.

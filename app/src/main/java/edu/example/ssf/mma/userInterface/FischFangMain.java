@@ -5,12 +5,17 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import edu.example.ssf.mma.R;
+import edu.example.ssf.mma.data.CsvFileWriter;
 import edu.example.ssf.mma.data.CurrentTickData;
 import edu.example.ssf.mma.hardwareAdapter.HardwareFactory;
 
@@ -18,7 +23,11 @@ public class FischFangMain extends AppCompatActivity {
 
     private TextView tvSpeed, tvAngle, tvDistance, tv3, tv4, tv5, tv6, tv7, tv8;
     private Button btn1;
-    boolean isButtonReleased = false, isButtonPressed = false;
+    boolean isButtonReleased = false, isButtonPressed = false, isRecordingStarted = false;
+
+    List<Double> accVecAValues, accVecAValuesMax;
+    List<Float> accXValues, angleXValues;
+    List<Float> accXValuesMax, angleXValuesMax;
 
     SensorManager sensorManager;
     Sensor sensor;
@@ -28,6 +37,14 @@ public class FischFangMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fisch_fang_main);
+
+        accVecAValues = Collections.synchronizedList(new ArrayList());
+        accXValues = Collections.synchronizedList(new ArrayList());
+        angleXValues = Collections.synchronizedList(new ArrayList());
+
+        accVecAValuesMax = new ArrayList<Double>();
+        accXValuesMax = new ArrayList<Float>();
+        angleXValuesMax = new ArrayList<Float>();
 
         tvSpeed = findViewById(R.id.tvSpeed);
         tvAngle = findViewById(R.id.tvAngle);
@@ -45,9 +62,51 @@ public class FischFangMain extends AppCompatActivity {
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
 
-        btn1.setOnTouchListener(new View.OnTouchListener() {
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isRecordingStarted) {
+                    btn1.setText("Click to Stop recording");
+                    isRecordingStarted = true;
+
+                    thread.start();
+                } else {
+                    btn1.setText("Click to Start recording");
+                    isRecordingStarted = false;
+
+                    HardwareFactory.hwAcc.stop();
+                    HardwareFactory.hwGyro.stop();
+
+                    //tvSpeed.setText(String.format("%.2f", Collections.max(accVecAValues)));
+
+                    synchronized (accXValues) {
+                        Log.e("Acc x Length", accXValues.size() + "");
+                        if (accXValues.size() > 0)
+                            accXValuesMax.add(Collections.max(accXValues));
+                    }
+                    synchronized (angleXValues) {
+                        Log.e("Acc angle Length", angleXValues.size() + "");
+                        if (angleXValues.size() > 0)
+                            angleXValuesMax.add(Collections.max(angleXValues));
+                    }
+                    synchronized (accVecAValues) {
+                        Log.e("Acc VecA Length", accVecAValues.size() + "");
+                        if (accVecAValues.size() > 0)
+                            accVecAValuesMax.add(Collections.max(accVecAValues));
+                    }
+
+                    accXValues.clear();
+                    angleXValues.clear();
+                    accVecAValues.clear();
+                }
+            }
+        });
+
+
+        /*btn1.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     tv8.setText("Pressed");
                     isButtonPressed = true;
@@ -65,11 +124,66 @@ public class FischFangMain extends AppCompatActivity {
                     tv8.setText("Released");
 
                     tvDistance.setText(String.format("%.2f", ((CurrentTickData.accVecA - 10))/3));
-                    tvAngle.setText(String.format("%.2f", CurrentTickData.angleX));
+                    tvAngle.setText(String.format("%.2f", CurrentTickData.angleXValues));
                     tvSpeed.setText(String.format("%.2f", (CurrentTickData.accVecA-10)*2) + "km/h");
                 }
                 return true;
             }
         });
+        */
+    }
+
+    Thread thread = new Thread() {
+        @Override
+        public void run() {
+            try {
+                while (true) {
+                    sleep(1);
+
+                    if (isRecordingStarted) {
+                        HardwareFactory.hwAcc.start();
+                        HardwareFactory.hwGyro.start();
+
+                        CurrentTickData.rotationX = HardwareFactory.hwGyro.getRotX();
+                        CurrentTickData.accVecA = HardwareFactory.hwAcc.getAccA();
+                        CurrentTickData.accX = HardwareFactory.hwAcc.getAccX();
+
+                        synchronized (angleXValues) {
+                            angleXValues.add((CurrentTickData.rotationX));
+                        }
+                        synchronized (accVecAValues) {
+                            accVecAValues.add(CurrentTickData.accVecA);
+                        }
+                        synchronized (accXValues
+                        ) {
+                            accXValues.add(CurrentTickData.accX);
+                        }
+                    }
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        CsvFileWriter.crtFile();
+        int counter = 0;
+        for (Float val : accXValuesMax) {
+            CsvFileWriter.write(++counter + " accXvalues Max: " + val + "\n");
+        }
+        counter = 0;
+        for (Float val : angleXValuesMax) {
+            CsvFileWriter.write(++counter + " angleXValuesMax Max: " + val + "\n");
+        }
+        counter = 0;
+        for (Double val : accVecAValuesMax) {
+            CsvFileWriter.write(++counter + " accVecAValuesMax Max: " + val + "\n");
+        }
+
+        CsvFileWriter.closeFile();
     }
 }
