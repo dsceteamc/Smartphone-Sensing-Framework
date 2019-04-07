@@ -21,7 +21,7 @@ import edu.example.ssf.mma.hardwareAdapter.HardwareFactory;
 
 public class FischFangMain extends AppCompatActivity {
     private double height = 2;
-    private double correctionConstant = 1.15;
+    private double correctionConstant = 1;
     private double gravityConstant = 9.81;
     private TextView tvSpeed, tvAngle, tvDistance, tv3, tv4, tv5, tv6, tv7, tv8;
     private Button btn1;
@@ -96,10 +96,11 @@ public class FischFangMain extends AppCompatActivity {
                         if (accVecAValues.size() > 0)
                             accVecAValuesMax.add(Collections.max(accVecAValues));
                     }
-                    output();
+
                     accXValues.clear();
                     angleXValues.clear();
                     accVecAValues.clear();
+                    output();
                 }
             }
         });
@@ -186,29 +187,40 @@ public class FischFangMain extends AppCompatActivity {
         for (Double val : accVecAValuesMax) {
                        CsvFileWriter.write(++counter + " accVecAValuesMax Max: " + val + "\n");
                 }
+        counter = 0;
+        double speed2 = Collections.max(accXValuesMax);
+        if (Collections.max(angleXValuesMax) > 2.0f) {
 
+        } else {
+            double distance = horizontalerWurf(speed2);
+            CsvFileWriter.write(++counter + " distance: " + distance + "\n");
+        }
         CsvFileWriter.closeFile();
           }
 
 
-    public void output(){
- double speed = Collections.max(accVecAValuesMax);
- double speed2 = Collections.max(accXValuesMax);
- double angle = Collections.max(angleXValuesMax);
-                tvAngle.setText(String.format("%.2f", angle));
-                Log.e("angle", angle + "");
+    public void output() {
+        double speed = Collections.max(accVecAValuesMax);
+        double speed2 = Collections.max(accXValuesMax);
+        double angle = Collections.max(angleXValuesMax);
+        tvAngle.setText(String.format("%.2f", angle));
+        Log.e("angle", angle + "");
 
-                tvSpeed.setText(String.format("%.2f", (speed2)));
-                Log.e("speed", speed + "");
-                Log.e("speed2", speed2 + "");
+        tvSpeed.setText(String.format("%.2f", (speed2)));
+        Log.e("speed", speed + "");
+        Log.e("speed2", speed2 + "");
 
-
-        double distance =horizontalerWurf(speed2);
-        //double distance2 =schieferWurf(speed2, angle); // does not work
+        if (angle > 2) {
+            tvDistance.setText(String.format("Faulty Throw"));
+            Log.e("Distance", "Faulty Throw, Angle: " + Collections.max(angleXValuesMax));
+        } else {
+            horizontalerWurf(speed2);
+            //double distance2 =schieferWurf(speed2, angle); // does not work
+            }
     }
 
     public double horizontalerWurf(double speed){
-        double distance =  speed * Math.sqrt(2*height/gravityConstant)+ correctionConstant;
+        double distance =  speed * Math.sqrt(2*height/gravityConstant)* correctionConstant;
         tvDistance.setText(String.format("%.2f", (distance)));
         Log.e("Distance", distance + "");
         return distance;
@@ -219,4 +231,4 @@ public class FischFangMain extends AppCompatActivity {
         Log.e("Distance", distance + "");
         return distance;
     }
-}
+   }
