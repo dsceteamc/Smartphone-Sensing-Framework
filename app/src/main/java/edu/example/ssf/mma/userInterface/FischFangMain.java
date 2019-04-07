@@ -20,7 +20,9 @@ import edu.example.ssf.mma.data.CurrentTickData;
 import edu.example.ssf.mma.hardwareAdapter.HardwareFactory;
 
 public class FischFangMain extends AppCompatActivity {
-
+    private double height = 2;
+    private double correctionConstant = 1.15;
+    private double gravityConstant = 9.81;
     private TextView tvSpeed, tvAngle, tvDistance, tv3, tv4, tv5, tv6, tv7, tv8;
     private Button btn1;
     boolean isButtonReleased = false, isButtonPressed = false, isRecordingStarted = false;
@@ -77,7 +79,7 @@ public class FischFangMain extends AppCompatActivity {
                     HardwareFactory.hwAcc.stop();
                     HardwareFactory.hwGyro.stop();
 
-                    //tvSpeed.setText(String.format("%.2f", Collections.max(accVecAValues)));
+                   // tvSpeed.setText(String.format("%.2f", Collections.max(accVecAValues)));
 
                     synchronized (accXValues) {
                         Log.e("Acc x Length", accXValues.size() + "");
@@ -94,7 +96,7 @@ public class FischFangMain extends AppCompatActivity {
                         if (accVecAValues.size() > 0)
                             accVecAValuesMax.add(Collections.max(accVecAValues));
                     }
-
+                    output();
                     accXValues.clear();
                     angleXValues.clear();
                     accVecAValues.clear();
@@ -177,13 +179,44 @@ public class FischFangMain extends AppCompatActivity {
         }
         counter = 0;
         for (Float val : angleXValuesMax) {
-            CsvFileWriter.write(++counter + " angleXValuesMax Max: " + val + "\n");
+                   CsvFileWriter.write(++counter + " angleXValuesMax Max: " + val + "\n");
+
         }
         counter = 0;
         for (Double val : accVecAValuesMax) {
-            CsvFileWriter.write(++counter + " accVecAValuesMax Max: " + val + "\n");
-        }
+                       CsvFileWriter.write(++counter + " accVecAValuesMax Max: " + val + "\n");
+                }
 
         CsvFileWriter.closeFile();
+          }
+
+
+    public void output(){
+ double speed = Collections.max(accVecAValuesMax);
+ double speed2 = Collections.max(accXValuesMax);
+ double angle = Collections.max(angleXValuesMax);
+                tvAngle.setText(String.format("%.2f", angle));
+                Log.e("angle", angle + "");
+
+                tvSpeed.setText(String.format("%.2f", (speed2)));
+                Log.e("speed", speed + "");
+                Log.e("speed2", speed2 + "");
+
+
+        double distance =horizontalerWurf(speed2);
+        //double distance2 =schieferWurf(speed2, angle); // does not work
+    }
+
+    public double horizontalerWurf(double speed){
+        double distance =  speed * Math.sqrt(2*height/gravityConstant)+ correctionConstant;
+        tvDistance.setText(String.format("%.2f", (distance)));
+        Log.e("Distance", distance + "");
+        return distance;
+    }
+    public double schieferWurf(double speed, double angle){
+        double distance =  ((speed*speed) *Math.sin(2*angle))/gravityConstant;
+        tvDistance.setText(String.format("%.2f", (distance)));
+        Log.e("Distance", distance + "");
+        return distance;
     }
 }
